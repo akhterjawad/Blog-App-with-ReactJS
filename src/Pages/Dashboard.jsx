@@ -163,14 +163,14 @@ const Dashboard = () => {
             type="text"
             ref={MainBlogTitle}
             id="small-input"
-            className="mt-10 block w-[80%] p-2 text-gray-900 border border-gray-300 rounded-lg text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="mt-10 block w-[80%] p-2 text-gray-900 border border-gray-300 rounded-lg sm:text-[1rem]  text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
           <textarea
             id="message"
             required
             rows={4}
             ref={MainBlogDescription}
-            className="block p-2.5 w-[80%] text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block sm:p-2 p-2.5 sm:text-[1rem] text-sm w-[80%] text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Write your thoughts here..."
             defaultValue={""}
           />
@@ -210,13 +210,13 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <h1 className='font-semibold sm:text-[2rem] self-start ml-2 sm:ml-0 text-[1.5rem] sm:mb-5 mb-2 sm:mt-5 mt-2 borde'>My Blogs</h1>
+        <h1 className='font-semibold sm:text-[2rem] self-start ml-2 sm:ml-0 text-[1.5rem] sm:mb-5 mb-0 sm:mt-5 mt-2 borde'>My Blogs</h1>
 
         {/* Render the list of blogs */}
-        <div className="mt-10 w-full px-5">
+        <div className="sm:mt-10 mt-5 w-full px-5">
           {blogs.length > 0 ? (
             blogs.map((blog, index) => (
-              <div key={index} className="bg-white shadow-md rounded-lg p-6 w-[95%] sm:w-[80%]">
+              <div key={index} className="bg-white mt-10 mb-10 shadow-md rounded-lg p-6 w-[95%] sm:w-[80%]">
                 <div className="flex items-center space-x-4">
                   <img
                     src={UserImage}
@@ -245,7 +245,6 @@ const Dashboard = () => {
             <p className="text-center text-gray-600">No blogs found.</p>
           )}
         </div>
-
       </div>
     </>
   );
