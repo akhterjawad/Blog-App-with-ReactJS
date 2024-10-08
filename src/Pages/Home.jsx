@@ -200,7 +200,7 @@ const Home = () => {
                 <div key={index} className="bg-white m-auto mt-10 mb-10 border rounded-lg p-6 w-[95%] sm:w-[80%]">
                   <div className="flex items-center space-x-1">
                     <img
-                      src={user.profileImage } // Fallback to default image if no user data
+                      src={user.profileImage} // Fallback to default image if no user data
                       alt="Author Image"
                       className="w-14 object-cover h-14 rounded-xl"
                     />
