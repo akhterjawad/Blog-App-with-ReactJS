@@ -41,92 +41,16 @@ const Login = () => {
 
   return (
     <>
-      <nav className="bg-[#7749F8] sm:p-0 p-1 flex flex-wrap justify-between items-center">
-        <Link to="/" className="text-white sm:ml-24 ml-5 sm:text-[1.4rem] text-[1.3rem] font-bold hover:bg-[#5628F6]  rounded-lg transition duration-300 sm:px-2 px-0 py-0  sm:py-1">Personal Blogging App</Link>
-        <div className="flex justify-center items-center font-semibold sm:mr-12 mr-5 ">
-          <Link to="/register" className="text-white sm:px-2 px-0 py-0  sm:py-1 hover:bg-[#5628F6]  rounded-lg transition duration-300">Register</Link>
-        </div>
-      </nav>
+    <Navbar/>
+      
       <NavbarBlow PageName='Login' />
-
-
-
-      {/* <nav className="bg-white border-gray-200 dark:bg-gray-900">
-        <div className="max-w-screen-xl flex items-center justify-end p-4">
-          <div className="relative text-center space-x-3 rtl:space-x-reverse">
-            <button
-              type="button"
-              className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-              id="user-menu-button"
-              aria-expanded={isDropdownOpen ? "true" : "false"}
-              onClick={toggleDropdown}
-            >
-              <span className="sr-only">Open user menu</span>
-              <img
-                className="w-8 h-8 rounded-full"
-                src="/docs/images/people/profile-picture-3.jpg"
-                alt="user photo"
-              />
-            </button>
-            {/* Dropdown menu */}
-      {/* {isDropdownOpen && (
-              <div
-                className="absolute right-0 z-50 mt-2 w-48 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-                id="user-dropdown"
-              >
-                <div className="px-4 py-3">
-                  <span className="block text-sm text-gray-900 dark:text-white">
-                    Bonnie Green
-                  </span>
-                  <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-                    name@flowbite.com
-                  </span>
-                </div>
-                <ul className="py-2" aria-labelledby="user-menu-button">
-                  <li>
-                    <span
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                      Dashboard
-                    </span>
-                  </li>
-                  <li>
-                    <span
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                      Settings
-                    </span>
-                  </li>
-                  <li>
-                    <span
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                      Earnings
-                    </span>
-                  </li>
-                  <li>
-                    <span
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                      Sign out
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      </nav> */}
-
-
-
       <div className="flex items-center justify-center pt-[5rem]">
         <div className="w-full max-w-sm p-6 m-3 bg-white shadow-lg rounded-lg">
           <h1 className="text-3xl font-bold text-center mb-6">Login</h1>
-
           <form onSubmit={handleSubmit(loginUserFromFirebase)} className="space-y-4">
             <div>
               <input
+              required
                 type="email"
                 placeholder="Enter your email"
                 {...register("email", { required: true })}
@@ -139,6 +63,7 @@ const Login = () => {
 
             <div>
               <input
+              required
                 type="password"
                 placeholder="Enter your password"
                 {...register("password", { required: true })}
@@ -181,6 +106,9 @@ const Login = () => {
               )}
               {isSubmitting && <span className="ml-2">Processing...</span>}
             </button>
+            <center>
+              <Link to="/register" className=' w-32 flex  justify-center'><p className="inline text-blue-500 text-center mt-2 font-semibold  hover:underline ">Not a user..?</p></Link>
+            </center>
           </form>
         </div>
       </div>

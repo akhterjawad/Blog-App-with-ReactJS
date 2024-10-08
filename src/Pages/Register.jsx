@@ -37,15 +37,15 @@ const Register = () => {
 
   return (
     <>
-      <nav className="bg-[#7749F8] sm:p-0 p-1 flex flex-wrap justify-between items-center">
-        <Link to="/" className="text-white sm:ml-24 ml-5 sm:text-[1.4rem] text-[1.3rem] font-bold hover:bg-[#5628F6]  rounded-lg transition duration-300 sm:px-2 px-0 py-0  sm:py-1">Personal Blogging App</Link>
-        <div className="flex justify-center items-center font-semibold sm:mr-12 mr-5 ">
+
+      {/* <div className="flex justify-center items-center font-semibold sm:mr-12 mr-5 ">
           <Link to="/Login" className="text-white sm:px-2 px-0 py-0  sm:py-1 hover:bg-[#5628F6]  rounded-lg transition duration-300">Login</Link>
-        </div>
-      </nav>
+        </div> */}
+      <Navbar />
+
       <NavbarBlow PageName='Register' />
       <div className="flex items-center justify-center  pt-[3rem] ">
-        <div className="ml-3 mr-3 max-w-md w-full bg-white rounded-lg shadow-md p-8">
+        <div className="ml-3 mr-3 max-w-md w-full bg-white mb-12 rounded-lg shadow-md p-8">
           <h1 className="sm:text-3xl text-2xl font-bold text-center underline mb-6">Register</h1>
 
           <form onSubmit={handleSubmit(registerUserFromFirebase)}>
@@ -126,7 +126,9 @@ const Register = () => {
               {isSubmitting && <span className="ml-2">Registering...</span>}
             </button>
 
-
+            <center>
+              <Link to="/Login" className=' w-32 flex  justify-center'><p className="inline text-blue-500 text-center mt-5 font-semibold  hover:underline ">Already a user..?</p></Link>
+            </center>
           </form>
         </div>
       </div>

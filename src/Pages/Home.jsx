@@ -197,17 +197,17 @@ const Home = () => {
             blogs.map((blog, index) => {
               const user = CheckUserDataForBlog.find(user => user.id === blog.Uid);
               return (
-                <div key={index} className="bg-white m-auto mt-10 mb-10 shadow-md rounded-lg p-6 w-[95%] sm:w-[80%]">
-                  <div className="flex items-center space-x-4">
+                <div key={index} className="bg-white m-auto mt-10 mb-10 border rounded-lg p-6 w-[95%] sm:w-[80%]">
+                  <div className="flex items-center space-x-1">
                     <img
-                      src={user?.profileImage || '/default-profile.png'} // Fallback to default image if no user data
+                      src={user.profileImage } // Fallback to default image if no user data
                       alt="Author Image"
-                      className="w-14 object-cover h-14 rounded-full"
+                      className="w-14 object-cover h-14 rounded-xl"
                     />
                     <div>
                       <h2 className="text-xl font-semibold">{blog.BlogTitle}</h2>
                       <p className="text-sm text-gray-500">
-                        {user?.fullName || 'Unknown Author'} - {blog.time.toDate().toLocaleString()}
+                        {user.fullName} - {blog.time.toDate().toLocaleString()}
                       </p>
                     </div>
                   </div>
