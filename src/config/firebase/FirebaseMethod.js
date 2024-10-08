@@ -99,24 +99,49 @@ const sendData = (obj, colName) => {
     });
 };
 
+// //get data with id from firestore
+// const getData = (colName, uid) => {
+//     return new Promise(async (resolve, reject) => {
+//         const dataArr = []
+
+//         const q = query(
+//             collection(db, colName),
+//             where("uid", "==", uid)
+//         );
+
+//         const querySnapshot = await getDocs(q);
+//         querySnapshot.forEach((doc) => {
+//             dataArr.push(doc.data())
+//             resolve(dataArr);
+//         });
+//         reject("error occured");
+//     });
+// };
+
+
 //get data with id from firestore
 const getData = (colName, uid) => {
     return new Promise(async (resolve, reject) => {
-        const dataArr = []
+        const dataArr = [];
 
-        const q = query(
-            collection(db, colName),
-            where("uid", "==", uid)
-        );
+        try {
+            const q = query(
+                collection(db, colName),
+                where("uid", "==", uid)
+            );
 
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            dataArr.push(doc.data())
-            resolve(dataArr);
-        });
-        reject("error occured");
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                dataArr.push(doc.data());
+            });
+
+            resolve(dataArr); // Loop ke baad resolve kar rahe hain
+        } catch (error) {
+            reject("Error occured: " + error);
+        }
     });
 };
+
 
 //get all data
 const getAllData = (colName) => {
