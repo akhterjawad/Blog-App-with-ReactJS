@@ -144,18 +144,41 @@ const getData = (colName, uid) => {
 
 
 //get all data
-const getAllData = (colName) => {
-    return new Promise(async (resolve, reject) => {
-        const dataArr = []
-        const querySnapshot = await getDocs(collection(db, colName));
-        querySnapshot.forEach((doc) => {
-            const obj = { ...doc.data(), documentId: doc.id }
-            dataArr.push(obj)
-            resolve(dataArr);
-        });
-        reject("error occured")
-    })
-}
+// const getAllData = (colName) => {
+//     return new Promise(async (resolve, reject) => {
+//         const dataArr = []
+//         const querySnapshot = await getDocs(collection(db, colName));
+//         querySnapshot.forEach((doc) => {
+//             const obj = { ...doc.data(), documentId: doc.id }
+//             dataArr.push(obj)
+//             resolve(dataArr);
+//         });
+//         reject("error occured")
+//     })
+// }
+
+
+//get all data
+const getAllData = async (colName, queryConstraint) => {
+    try {
+      const dataArr = [];
+      const colRef = collection(db, colName);
+      
+      // Check if there is a query constraint (like orderBy) and apply it
+      const q = queryConstraint ? query(colRef, queryConstraint) : colRef;
+  
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        dataArr.push({ ...doc.data(), documentId: doc.id });
+      });
+      return dataArr;  // Return the array of documents
+    } catch (error) {
+      throw new Error("Error occurred while fetching data from Firestore.");
+    }
+  };
+  
+
+
 
 //Delete document by id
 const deleteDocument = async (id, name) => {

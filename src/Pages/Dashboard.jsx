@@ -181,7 +181,7 @@ const Dashboard = () => {
       <Navbar />
       <NavbarBlow PageName="Dashboard" />
 
-      <div className='flex items-center sm:items-start flex-col justify-start sm:pl-[100px] pl-0 bg-gray-50 min-h-screen'>
+      <div className='flex items-center sm:items-start flex-col justify-start sm:pl-[100px] pl-0  min-h-screen'>
         <div className='flex items-center flex-col justify-center gap-5 max-h-96 bg-white w-[95%] sm:w-[80%] mt-20 rounded-sm'>
           <input
             required
@@ -216,7 +216,7 @@ const Dashboard = () => {
         <div className="sm:mt-10 mt-5 w-full px-5">
           {blogs.length > 0 ? (
             blogs.map((blog, index) => (
-              <div key={index} className="bg-white mt-10 mb-10 shadow-md rounded-lg p-6 w-[95%] sm:w-[80%]">
+              <div key={index} className="bg-white mt-10 mb-10 border rounded-lg p-6 w-[95%] sm:w-[80%]">
                 <div className="flex items-center space-x-4">
                   <img
                     src={UserImage}
