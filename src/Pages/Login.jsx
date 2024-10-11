@@ -4,6 +4,7 @@ import { loginUser } from '../config/firebase/FirebaseMethod';
 import { Link, useNavigate } from 'react-router-dom';
 import NavbarBlow from '../Components/NavbarBlow';
 import Navbar from '../Components/Navbar';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   // const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -23,8 +24,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   const loginUserFromFirebase = async (data) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     console.log(data);
+  
     try {
       const userLogin = await loginUser({
         email: data.email,
@@ -33,11 +35,17 @@ const Login = () => {
       console.log(userLogin);
       navigate('/');
     } catch (error) {
-      alert(error)
       console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Check your email and Password',
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
+  
 
   return (
     <>

@@ -29,10 +29,15 @@ const Register = () => {
       console.log(userData);
       navigate('/login');
     } catch (error) {
-      alert(error);
       console.log(error);
+      Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Check your email and Internet',
+    });
+    }finally{
+      setIsSubmitting(false); // Reset to false after submission completes
     }
-    setIsSubmitting(false); // Reset to false after submission completes
   };
 
   return (
