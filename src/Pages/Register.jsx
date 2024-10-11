@@ -4,6 +4,7 @@ import { signUpUser, uploadImage } from '../config/firebase/FirebaseMethod';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import NavbarBlow from '../Components/NavbarBlow';
+import Swal from 'sweetalert2';
 
 const Register = () => {
   const [isSubmitting, setIsSubmitting] = useState(false); // Start with false

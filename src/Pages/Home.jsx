@@ -54,19 +54,35 @@ const Home = () => {
     } finally {
       setLoading(false); // Set loading to false after data is fetched
     }
+  };
+
+  let greeting;
+  const App = () => {
+    const currentHour = new Date().getHours();
+
+    if (currentHour >= 5 && currentHour < 12) {
+      greeting = 'Good Morning Readers!';
+    } else if (currentHour >= 12 && currentHour < 17) {
+      greeting = 'Good Noon Readers!';
+    } else if (currentHour >= 17 && currentHour < 21) {
+      greeting = 'Good Evening Readers!';
+    } else {
+      greeting = 'Good Night Readers!';
+    }
+
   }
+  App()
 
   return (
     <React.Fragment>
       <Navbar
         Login={!CheckUser ? 'Login' : ''}
       />
-      <NavbarBlow PageName='Good Morning Readers!' />
+      <NavbarBlow PageName={greeting} />
       <div className="blogs-container">
         <h1 className='font-semibold sm:text-[2rem] ml-2 sm:ml-24 text-[1.5rem] sm:mb-5 mb-0 sm:mt-5 mt-2'>All Blogs</h1>
         <div className="sm:mt-10 mt-5 m-auto w-full px-5">
           {loading ? (
-            // Show Flowbite spinner while loading
             <div className=" flex justify-center items-center">
               <div role="status">
                 <svg
@@ -94,7 +110,7 @@ const Home = () => {
               const user = CheckUserDataForBlog.find(user => user.id === blog.Uid);
               return (
                 <div key={index} className="bg-white m-auto mt-10 mb-10 border rounded-lg p-6 w-[95%] sm:w-[80%]">
-                  <div className="flex items-center space-x-1">
+                  <div className="flex space-x-1">
                     <img
                       src={user.profileImage} // Fallback to default image if no user data
                       alt="Author Image"

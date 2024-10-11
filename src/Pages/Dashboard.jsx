@@ -12,8 +12,8 @@ const Dashboard = () => {
   const [UserFullName, setUserFullName] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [blogs, setBlogs] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
+  // const [isEditing, setIsEditing] = useState(false);
+  // const [editIndex, setEditIndex] = useState(null);
   const [deleteDisable, setdeleteDisable] = useState(false)
   const [loading, setLoading] = useState(false);
   const MainBlogTitle = useRef();
@@ -119,70 +119,129 @@ const Dashboard = () => {
     }
   };
 
-  const updateBlog = (index) => {
-    setdeleteDisable(true)
+  const updateBlog = async (index) => {
     const blogToUpdate = blogs[index];
     if (!blogToUpdate) {
       console.error('Blog not found at index:', index);
       return;
     }
-
-    MainBlogTitle.current.value = blogToUpdate.BlogTitle;
-    MainBlogDescription.current.value = blogToUpdate.BlogDescription;
-    setIsEditing(true);
-    setEditIndex(index);
-    // setdeleteDisable(false)
+  
+    // Function to get updated title
+    async function ForUpdateTitleValue() {
+      try {
+        const inputValue = blogToUpdate.BlogTitle;
+  
+        const { value: updatedTitle } = await Swal.fire({
+          title: "Enter Title",
+          input: "text",
+          inputLabel: "Your Title",
+          inputPlaceholder: "Type your title here...",
+          inputValue, // Set the default input value to the old title
+          showCancelButton: true,
+          inputValidator: (value) => {
+            if (!value) {
+              return "You need to write something!";
+            }
+          },
+        });
+  
+        return updatedTitle; // Return the updated title
+      } catch (error) {
+        console.error("Error getting updated title:", error);
+        return null; // Return null if there was an error
+      }
+    }
+  
+    const updatedTitle = await ForUpdateTitleValue();
+  
+    // Check if user canceled the title prompt
+    if (updatedTitle === null) {
+      console.log("Update canceled by user for title.");
+      return;
+    }
+  
+    // Function to get updated description
+    async function ForUpdateDescriptionValue() {
+      try {
+        const inputValue = blogToUpdate.BlogDescription;
+  
+        const { value: updatedDescription } = await Swal.fire({
+          input: "textarea",
+          inputLabel: "Message",
+          inputValue, // Set the default value to the current description
+          inputAttributes: {
+            "aria-label": "Type your message here",
+          },
+          showCancelButton: true,
+        });
+  
+        return updatedDescription; // Return the updated description
+      } catch (error) {
+        console.error("Error getting updated description:", error);
+        return null; // Return null in case of error
+      }
+    }
+  
+    const updatedDescription = await ForUpdateDescriptionValue(); // Await the result
+  
+    // Check if user canceled the description input
+    if (updatedDescription === null) {
+      console.log("Update canceled by user for description.");
+      return;
+    }
+  
+    // Save the updated blog
+    saveUpdatedBlog(updatedTitle, updatedDescription, index);
   };
-
-  const saveUpdatedBlog = async () => {
-    setdeleteDisable(true)
-    const updatedTitle = MainBlogTitle.current.value;
-    const updatedDescription = MainBlogDescription.current.value;
-
-    if (!updatedTitle || !updatedDescription) {
-      alert('Both title and description are required to update!');
-      return;
-    }
-
-    if (editIndex === null || editIndex === undefined) {
-      console.error('No valid edit index found:', editIndex);
-      return;
-    }
-
-    const blogToUpdate = blogs[editIndex];
+  
+  const saveUpdatedBlog = async (updatedTitle, updatedDescription, index) => {
+    const blogToUpdate = blogs[index];
     if (!blogToUpdate) {
-      console.error('No blog found at this index:', editIndex);
+      console.error("No blog found at this index:", index);
       return;
     }
-
-    try {
-      const blogDoc = doc(db, 'blogs', blogToUpdate.id);
-      await updateDoc(blogDoc, {
-        BlogTitle: updatedTitle,
-        BlogDescription: updatedDescription,
+  
+    const updatedFields = {};
+    if (updatedTitle !== blogToUpdate.BlogTitle) {
+      updatedFields.BlogTitle = updatedTitle;
+    }
+    if (updatedDescription !== blogToUpdate.BlogDescription) {
+      updatedFields.BlogDescription = updatedDescription;
+    }
+  
+    // Check if there are actually fields to update
+    if (Object.keys(updatedFields).length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Nothing to update",
+        text: "The title and description are unchanged.",
       });
-
+      return;
+    }
+  
+    try {
+      const blogDoc = doc(db, "blogs", blogToUpdate.id);
+      console.log("Updating blog document:", blogDoc.id);
+  
+      await updateDoc(blogDoc, updatedFields); // Only update the fields that changed
+  
       setBlogs((prevBlogs) =>
         prevBlogs.map((blog, i) =>
-          i === editIndex ? { ...blog, BlogTitle: updatedTitle, BlogDescription: updatedDescription } : blog
+          i === index ? { ...blog, ...updatedFields } : blog
         )
       );
-      console.log('Blog updated');
+      console.log("Blog updated");
     } catch (error) {
-      console.error('Error updating blog:', error);
+      console.error("Error updating blog:", error);
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong while updating the blog!'
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong while updating the blog!",
       });
-    } finally {
-      setIsEditing(false);
-      MainBlogTitle.current.value = '';
-      MainBlogDescription.current.value = '';
-      setEditIndex(null);
-      setdeleteDisable(false)
     }
   };
+  
+  
 
   return (
     <>
@@ -210,11 +269,11 @@ const Dashboard = () => {
           <div className='w-[80%]'>
             <button
               type="submit"
-              onClick={isEditing ? saveUpdatedBlog : addBlogToFireStore}
+              onClick={addBlogToFireStore}
               disabled={isSubmitting}
               className={`flex items-center justify-center w-32 mb-10 py-2 rounded-lg transition duration-300 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
             >
-              {isSubmitting ? 'Processing...' : isEditing ? 'Save Changes' : 'Publish Blog'}
+              {isSubmitting ? 'Processing...' : 'Publish Blog'}
             </button>
           </div>
         </div>
