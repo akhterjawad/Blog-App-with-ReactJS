@@ -42,7 +42,7 @@ const Register = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
 
       {/* <div className="flex justify-center items-center font-semibold sm:mr-12 mr-5 ">
           <Link to="/Login" className="text-white sm:px-2 px-0 py-0  sm:py-1 hover:bg-[#5628F6]  rounded-lg transition duration-300">Login</Link>
@@ -138,7 +138,7 @@ const Register = () => {
           </form>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

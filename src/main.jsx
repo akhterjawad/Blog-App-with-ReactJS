@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         element: <Dashboard />
       },
       {
-        path: 'user',
+        path: 'user/:Uid',
         element: <SingleUser />
       },
     ]

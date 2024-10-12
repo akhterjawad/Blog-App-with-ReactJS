@@ -101,7 +101,7 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Navbar />
       <NavbarBlow PageName="Profile" />
       <div className="max-w-5xl mt-10 ml-20 p-6 sm:mr-5 md:mr-5 mr-5 bg-white rounded-lg shadow-md">
@@ -181,7 +181,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

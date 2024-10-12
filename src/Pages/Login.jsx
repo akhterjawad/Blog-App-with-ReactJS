@@ -48,7 +48,7 @@ const Login = () => {
   
 
   return (
-    <>
+    <React.Fragment>
     <Navbar/>
       
       <NavbarBlow PageName='Login' />
@@ -120,7 +120,7 @@ const Login = () => {
           </form>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 
