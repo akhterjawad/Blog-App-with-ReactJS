@@ -81,7 +81,7 @@ const SingleUser = () => {
       // Dashboard={CheckUser ? 'Dashboard' : ''}
       // Profile={CheckUser ? 'Profile' : ''}
       // Logout={CheckUser ? 'Logout' : ''}
-      // Login={!CheckUser ? 'Login' : ''}
+      Login={!CheckUser ? 'Login' : ''}
       />
       <div className='border bg-white'>
         <Link to="/">
@@ -93,8 +93,8 @@ const SingleUser = () => {
 
       <h1 className='sm:ml-24 ml-5 sm:text-[1.5rem] text-[1.2rem] font-bold mt-5'>All From {userData?.fullName ? userData.fullName : ''} </h1>
 
-      <div className='min-h-screen flex flex-col-reverse sm:flex-row justify-between bg-gray-100'>
-        <div>
+      <div className='flex flex-col-reverse sm:flex-row justify-between bg-gray-100'>
+        <div className='w-[90%] flex flex-col justify-center items-center  sm:ml-0 ml-5 sm:w-[390rem]'>
 
           {blogs && userData ? (
             blogs.map((blog, index) => (
@@ -105,7 +105,7 @@ const SingleUser = () => {
                     alt="Author Image"
                     className="w-14 object-cover h-14 rounded-xl"
                   />
-                  <div>
+                  <div className=''>
                     <h2 className="text-xl font-semibold">{blog.BlogTitle}</h2>
                     <p className="text-sm text-gray-500">
                       {userData.fullName} - {blog.time.toDate().toLocaleString()}
@@ -116,13 +116,13 @@ const SingleUser = () => {
               </div>
             ))
           ) : (
-            <div className='flex items-start justify-center mb-[30rem]'>
+            <div className='flex sm:ml-[40rem] ml-0 sm:mt-20 mt-0 items-center justify-center mb-[30rem]'>
               <Spinner />
             </div>
           )}
         </div>
         {/* Right side: Profile Section */}
-        <div className='w-full sm:w-[10] p-6 flex flex-col items-center'>
+        <div className='w-full sm:w-[10 ] p-6 flex flex-col items-center'>
           <div className="flex  flex-col items-end">
             <p className=" text-sm font-bold underline">{userData?.email.split('@')[0]}</p>
           <h2 className="text-xl  font-semibold text-[#7749F8]">
