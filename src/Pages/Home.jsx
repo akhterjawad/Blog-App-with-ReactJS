@@ -34,6 +34,8 @@ const Home = () => {
       // Fetch blogs data with orderBy
       const blogsData = await getAllData("blogs", orderBy("time", "asc"));
       const blogsArray = blogsData;
+      console.log(blogsArray);
+
 
       // Fetch users data
       const usersQuerySnapshot = await getDocs(collection(db, "users"));
@@ -73,6 +75,11 @@ const Home = () => {
   }
   App()
 
+  function userblog(uid) {
+    navigate(`user/${uid}`)
+    
+  }
+
   return (
     <React.Fragment>
       <Navbar
@@ -106,10 +113,10 @@ const Home = () => {
 
             </div>
           ) : blogs.length > 0 ? (
-            blogs.map((blog, index) => {
+            blogs.map((blog) => {
               const user = CheckUserDataForBlog.find(user => user.id === blog.Uid);
               return (
-                <div key={index} className="bg-white m-auto mt-10 mb-10 border rounded-lg p-6 w-[95%] sm:w-[80%]">
+                <div key={blog.documentId} className="bg-white m-auto mt-10 mb-10 border rounded-lg p-6 pb-4 w-[95%] sm:w-[80%]">
                   <div className="flex space-x-1">
                     <img
                       src={user.profileImage} // Fallback to default image if no user data
@@ -126,6 +133,7 @@ const Home = () => {
                   <p className="mt-4 text-gray-700">
                     {blog.BlogDescription}
                   </p>
+                  <p className='mt-3 sm:mt-5 inline-block text-[#7749F8] hover:underline cursor-pointer' onClick={()=>userblog(blog.Uid)}>see all from this user</p>
                 </div>
               );
             })
