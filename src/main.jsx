@@ -38,6 +38,10 @@ const router = createBrowserRouter([
         path: 'user/:Uid',
         element: <SingleUser />
       },
+      {
+        path: '*',
+        element: <h1 className='text-center font-bold mt-60 text-[4rem]'>Not Found </h1>
+      },
     ]
   }
 ])

@@ -9,14 +9,11 @@ import Swal from 'sweetalert2';
 import Spinner from '../Components/Spinner';
 
 const SingleUser = () => {
-  let [UserImage, setUserImage] = useState(null);
-  let [UserFullName, setUserFullName] = useState(null);
-  let [UserEmail, setUserEmail] = useState(null);
 
   const [blogs, setBlogs] = useState(null);
   const { Uid } = useParams();
-  const navigate = useNavigate();
   let [CheckUser, setCheckUser] = useState(null);
+  const navigate = useNavigate();
 
   // State to hold user data
   const [userData, setUserData] = useState(null);
@@ -29,7 +26,9 @@ const SingleUser = () => {
       if (user) {
         setCheckUser(user);
         setCheckUser(true);
-        return;
+        
+      }else {
+        navigate('/login');
       }
       setCheckUser(false);
     });
