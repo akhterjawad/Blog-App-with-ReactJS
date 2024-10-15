@@ -19,7 +19,7 @@ let Navbar = ({ Home, Dashboard, Profile, Logout, Login, Register }) => {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log(user);
+        // console.log(user);
         setLoginUser(true);
         // setUid(user.uid);
 
@@ -34,7 +34,7 @@ let Navbar = ({ Home, Dashboard, Profile, Logout, Login, Register }) => {
             const querySnapshot = await getDocs(userQuery);
 
             querySnapshot.forEach((doc) => {
-              console.log('User data found:', doc.data());
+              // console.log('User data found:', doc.data());
               setUserImage(doc.data().profileImage);
               setUserFullName(doc.data().fullName);
               setUserEmail(doc.data().email);
@@ -54,13 +54,13 @@ let Navbar = ({ Home, Dashboard, Profile, Logout, Login, Register }) => {
   let logoutUser = async () => {
     let user = await signOutUser();
     // setIsUser(false)
-    console.log(user);
+    // console.log(user);
     navigate('/login')
   }
   return (
     <React.Fragment>
 
-      <nav className="bg-[#7749F8] sm:p-0 p-1 flex flex-wrap justify-between items-center">
+      <nav className="fixed top-0 w-full  bg-[#7749F8] sm:p-0 p-1 flex flex-wrap justify-between items-center">
         <Link to="/" className="text-white sm:ml-24 ml-5 sm:text-[1.4rem] text-[1.1rem] font-bold hover:bg-[#5628F6]  rounded-lg transition duration-300 sm:px-2 px-0 py-0  sm:py-1">Personal Blogging App</Link>
         <div className="flex justify-center items-center font-semibold sm:mr-12 mr-5 ">
           {LoginUser ?

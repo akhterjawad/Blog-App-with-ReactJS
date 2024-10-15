@@ -25,32 +25,32 @@ const Login = () => {
 
   const loginUserFromFirebase = async (data) => {
     setIsSubmitting(true);
-    console.log(data);
-  
+    // console.log(data);
+
     try {
       const userLogin = await loginUser({
         email: data.email,
         password: data.password,
       });
-      console.log(userLogin);
+      // console.log(userLogin);
       navigate('/');
     } catch (error) {
       console.log(error);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Check your email and Password',
+        text: 'Please check your email and Password',
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-  
+
 
   return (
     <React.Fragment>
-    <Navbar/>
-      
+      <Navbar />
+
       <NavbarBlow PageName='Login' />
       <div className="flex items-center justify-center pt-[5rem]">
         <div className="w-full max-w-sm p-6 m-3 bg-white shadow-lg rounded-lg">
@@ -58,7 +58,7 @@ const Login = () => {
           <form onSubmit={handleSubmit(loginUserFromFirebase)} className="space-y-4">
             <div>
               <input
-              required
+                required
                 type="email"
                 placeholder="Enter your email"
                 {...register("email", { required: true })}
@@ -71,7 +71,7 @@ const Login = () => {
 
             <div>
               <input
-              required
+                required
                 type="password"
                 placeholder="Enter your password"
                 {...register("password", { required: true })}

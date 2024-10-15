@@ -20,9 +20,9 @@ const SingleUser = () => {
 
   // State to hold user data
   const [userData, setUserData] = useState(null);
-  console.log(userData);
+  // console.log(userData);
 
-  console.log("UID from params:", Uid);
+  // console.log("UID from params:", Uid);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -45,16 +45,21 @@ const SingleUser = () => {
         });
         // Store the user data in state
         setUserData(userDataArray[0]);
-        console.log(userDataArray);
+        // console.log(userDataArray);
 
       } catch (error) {
         console.log("Error getting user document: ", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please check your internet connection'
+        });
       }
     };
 
     // Fetch user blogs from Firebase
     const fetchUserBlogs = async (uid) => {
-      const userQuery = query(collection(db, 'blogs'), where('Uid', '==', uid), orderBy('time'));
+      const userQuery = query(collection(db, 'blogs'), where('Uid', '==', uid), orderBy('time','desc'));
       try {
         const querySnapshot = await getDocs(userQuery);
         let userBlogs = [];
@@ -78,12 +83,12 @@ const SingleUser = () => {
   return (
     <React.Fragment>
       <Navbar
-      // Dashboard={CheckUser ? 'Dashboard' : ''}
-      // Profile={CheckUser ? 'Profile' : ''}
-      // Logout={CheckUser ? 'Logout' : ''}
-      Login={!CheckUser ? 'Login' : ''}
+        // Dashboard={CheckUser ? 'Dashboard' : ''}
+        // Profile={CheckUser ? 'Profile' : ''}
+        // Logout={CheckUser ? 'Logout' : ''}
+        Login={!CheckUser ? 'Login' : ''}
       />
-      <div className='border bg-white'>
+      <div className='border mt-8 bg-white'>
         <Link to="/">
           <h1 className='cursor-pointer inline-block text-[#7749F8] sm:ml-24 m-6 ml-10 font-bold text-[1.7rem] sm:text-[2.3rem]'>
             <span>{'<'}</span> Back to all blogs
@@ -116,7 +121,7 @@ const SingleUser = () => {
               </div>
             ))
           ) : (
-            <div className='flex sm:ml-[40rem] ml-0 sm:mt-20 mt-0 items-center justify-center mb-[30rem]'>
+            <div className="flex justify-center items-center min-h-[30vh]">
               <Spinner />
             </div>
           )}
@@ -125,7 +130,7 @@ const SingleUser = () => {
         <div className='w-full sm:w-[10 ] p-6 flex flex-col items-center'>
           <div className="flex  flex-col items-end">
             <p className=" text-sm font-bold underline">{userData?.email.split('@')[0]}</p>
-          <h2 className="text-xl  font-semibold text-[#7749F8]">
+            <h2 className="text-xl  font-semibold text-[#7749F8]">
               {userData?.fullName}
             </h2>
             <img
@@ -133,7 +138,7 @@ const SingleUser = () => {
               alt=""
               className="w-48 h-48 aspect-square object-cover rounded-md mb-4"
             />
-            
+
           </div>
         </div>
       </div>

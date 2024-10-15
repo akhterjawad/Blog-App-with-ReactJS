@@ -33,9 +33,9 @@ const Home = () => {
   async function GetDataFromFirestore() {
     try {
       // Fetch blogs data with orderBy
-      const blogsData = await getAllData("blogs", orderBy("time", "asc"));
+      const blogsData = await getAllData("blogs", orderBy("time", "desc"));
       const blogsArray = blogsData;
-      console.log(blogsArray);
+      // console.log(blogsArray);
 
 
       // Fetch users data
@@ -52,7 +52,7 @@ const Home = () => {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Check your Internet connection'
+        text: 'Please check your Internet connection'
       });
     } finally {
       setLoading(false); // Set loading to false after data is fetched
@@ -78,7 +78,7 @@ const Home = () => {
 
   function userblog(Uid) {
     navigate(`user/${Uid}`)
-    
+
   }
 
   return (
@@ -91,7 +91,7 @@ const Home = () => {
         <h1 className='font-semibold sm:text-[2rem] ml-2 sm:ml-24 text-[1.5rem] sm:mb-5 mb-0 sm:mt-5 mt-2'>All Blogs</h1>
         <div className="sm:mt-10 mt-5 m-auto w-full px-5">
           {loading ? (
-            <Spinner/>
+            <Spinner />
           ) : blogs.length > 0 ? (
             blogs.map((blog) => {
               const user = GetUserDataFromFirebase.find(user => user.id === blog.Uid);
@@ -103,8 +103,9 @@ const Home = () => {
                       alt="Author Image"
                       className="w-14 object-cover h-14 rounded-xl"
                     />
-                    <div>
+                    <div><div className='max-w-[30rem]'>
                       <h2 className="text-xl font-semibold">{blog.BlogTitle}</h2>
+                    </div>
                       <p className="text-sm text-gray-500">
                         {user.fullName} - {blog.time.toDate().toLocaleString()}
                       </p>
@@ -113,7 +114,7 @@ const Home = () => {
                   <p className="mt-4 text-[0.9rem] text-gray-700">
                     {blog.BlogDescription}
                   </p>
-                  <p className='mt-3 sm:mt-5 inline-block text-[#7749F8] hover:underline cursor-pointer' onClick={()=>userblog(blog.Uid)}>see all from this user</p>
+                  <p className='mt-3 sm:mt-5 inline-block text-[#7749F8] hover:underline cursor-pointer' onClick={() => userblog(blog.Uid)}>see all from this user</p>
                 </div>
               );
             })

@@ -17,7 +17,7 @@ const Register = () => {
 
   const registerUserFromFirebase = async (data) => {
     setIsSubmitting(true); // Set to true when starting submission
-    console.log(data);
+    // console.log(data);
 
     try {
       const userProfileImageUrl = await uploadImage(data.profileImage[0], data.email);
@@ -27,16 +27,16 @@ const Register = () => {
         fullName: data.fullName,
         profileImage: userProfileImageUrl
       });
-      console.log(userData);
+      // console.log(userData);
       navigate('/login');
     } catch (error) {
       console.log(error);
       Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Check your email and Internet',
-    });
-    }finally{
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Check your Internet',
+      });
+    } finally {
       setIsSubmitting(false); // Reset to false after submission completes
     }
   };

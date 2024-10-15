@@ -30,7 +30,7 @@ const Dashboard = () => {
             const userQuery = query(collection(db, "users"), where("id", "==", user.uid));
             const querySnapshot = await getDocs(userQuery);
             querySnapshot.forEach((doc) => {
-              console.log('User data found:', doc.data());
+              // console.log('User data found:', doc.data());
               setUserImage(doc.data().profileImage);
               setUserFullName(doc.data().fullName);
             });
@@ -47,7 +47,7 @@ const Dashboard = () => {
 
   const fetchUserBlogs = async (uid) => {
     setLoading(true)
-    const userQuery = query(collection(db, 'blogs'), where('Uid', '==', uid), orderBy('time'));
+    const userQuery = query(collection(db, 'blogs'), where('Uid', '==', uid), orderBy('time',"desc"));
     try {
       const querySnapshot = await getDocs(userQuery);
       let userBlogs = [];
@@ -56,6 +56,8 @@ const Dashboard = () => {
       });
       setBlogs(userBlogs);
     } catch (error) {
+      console.log(error);
+      
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -94,7 +96,7 @@ const Dashboard = () => {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error sendData of blogs'
+        text: 'Check your internet connection'
       });
     } finally {
       setIsSubmitting(false);
@@ -104,16 +106,16 @@ const Dashboard = () => {
   const deleteBlog = async (index) => {
     const blogToDelete = blogs[index];
     if (!blogToDelete) {
-      console.error('Blog not found at index:', index);
+      // console.error('Blog not found at index:', index);
       return;
     }
     setdeleteDisable(true)
     try {
       await deleteDoc(doc(db, 'blogs', blogToDelete.id));
       setBlogs((prevBlogs) => prevBlogs.filter((_, i) => i !== index));
-      console.log('Blog deleted');
+      // console.log('Blog deleted');
     } catch (error) {
-      console.error('Error deleting blog:', error);
+      // console.error('Error deleting blog:', error);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -130,12 +132,12 @@ const Dashboard = () => {
       console.error('Blog not found at index:', index);
       return;
     }
-  
+
     // Function to get updated title
     async function ForUpdateTitleValue() {
       try {
         const inputValue = blogToUpdate.BlogTitle;
-  
+
         const { value: updatedTitle } = await Swal.fire({
           title: "Enter Title",
           input: "text",
@@ -149,27 +151,27 @@ const Dashboard = () => {
             }
           },
         });
-  
+
         return updatedTitle; // Return the updated title
       } catch (error) {
         console.error("Error getting updated title:", error);
         return null; // Return null if there was an error
       }
     }
-  
+
     const updatedTitle = await ForUpdateTitleValue();
-  
+
     // Check if user canceled the title prompt
     if (updatedTitle === null) {
       console.log("Update canceled by user for title.");
       return;
     }
-  
+
     // Function to get updated description
     async function ForUpdateDescriptionValue() {
       try {
         const inputValue = blogToUpdate.BlogDescription;
-  
+
         const { value: updatedDescription } = await Swal.fire({
           input: "textarea",
           inputLabel: "Message",
@@ -179,33 +181,33 @@ const Dashboard = () => {
           },
           showCancelButton: true,
         });
-  
+
         return updatedDescription; // Return the updated description
       } catch (error) {
         console.error("Error getting updated description:", error);
         return null; // Return null in case of error
       }
     }
-  
+
     const updatedDescription = await ForUpdateDescriptionValue(); // Await the result
-  
+
     // Check if user canceled the description input
     if (updatedDescription === null) {
       console.log("Update canceled by user for description.");
       return;
     }
-  
+
     // Save the updated blog
     saveUpdatedBlog(updatedTitle, updatedDescription, index);
   };
-  
+
   const saveUpdatedBlog = async (updatedTitle, updatedDescription, index) => {
     const blogToUpdate = blogs[index];
     if (!blogToUpdate) {
-      console.error("No blog found at this index:", index);
+      // console.error("No blog found at this index:", index);
       return;
     }
-  
+
     const updatedFields = {};
     if (updatedTitle !== blogToUpdate.BlogTitle) {
       updatedFields.BlogTitle = updatedTitle;
@@ -213,7 +215,7 @@ const Dashboard = () => {
     if (updatedDescription !== blogToUpdate.BlogDescription) {
       updatedFields.BlogDescription = updatedDescription;
     }
-  
+
     // Check if there are actually fields to update
     if (Object.keys(updatedFields).length === 0) {
       Swal.fire({
@@ -223,19 +225,19 @@ const Dashboard = () => {
       });
       return;
     }
-  
+
     try {
       const blogDoc = doc(db, "blogs", blogToUpdate.id);
-      console.log("Updating blog document:", blogDoc.id);
-  
+      // console.log("Updating blog document:", blogDoc.id);
+
       await updateDoc(blogDoc, updatedFields); // Only update the fields that changed
-  
+
       setBlogs((prevBlogs) =>
         prevBlogs.map((blog, i) =>
           i === index ? { ...blog, ...updatedFields } : blog
         )
       );
-      console.log("Blog updated");
+      // console.log("Blog updated");
     } catch (error) {
       console.error("Error updating blog:", error);
       Swal.fire({
@@ -245,8 +247,8 @@ const Dashboard = () => {
       });
     }
   };
-  
-  
+
+
 
   return (
     <React.Fragment>
@@ -288,7 +290,7 @@ const Dashboard = () => {
         {/* Render the list of blogs */}
         <div className="sm:mt-10 mt-5 w-full px-5">
           {loading ?
-            (<Spinner/>) : blogs.length > 0 ? (
+            (<Spinner />) : blogs.length > 0 ? (
               blogs.map((blog, index) => (
                 <div key={index} className="bg-white mt-10 mb-10 border rounded-lg p-6 w-[95%] sm:w-[80%]">
                   <div className="flex space-x-1">
@@ -298,7 +300,7 @@ const Dashboard = () => {
                       className="w-[56px] h-[56px] rounded-xl object-cover"
                     />
                     <div>
-                      <div className='max-w-[20rem]'>
+                      <div className='max-w-[30rem]'>
                         <h2 className="text-xl font-semibold">{blog.BlogTitle}</h2>
                       </div>
                       <p className="text-sm text-gray-500">

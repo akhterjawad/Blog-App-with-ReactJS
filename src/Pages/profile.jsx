@@ -38,6 +38,11 @@ const Profile = () => {
             });
           } catch (error) {
             console.log("Error getting user document: ", error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Please check your internet connection'
+            });
           }
         };
 
@@ -104,9 +109,9 @@ const Profile = () => {
     <React.Fragment>
       <Navbar />
       <NavbarBlow PageName="Profile" />
-      <div className="max-w-5xl mt-10 ml-20 p-6 sm:mr-5 md:mr-5 mr-5 bg-white rounded-lg shadow-md">
+      <div className="max-w-5xl mt-10 sm:ml-20 ml-5 mb-5 p-6 sm:mr-5 md:mr-5 mr-5 bg-white rounded-lg shadow-md">
         <div className="flex flex-col items-start mt-2">
-          <h1 className="text-2xl font-semibold text-center mb-3 text-gray-700">Profile</h1>
+          <h1 className="text-2xl font-semibold text-center mb-3 text-gray-700">Your Profile</h1>
           <img
             src={UserImage}
             alt="Profile"
