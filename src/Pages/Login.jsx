@@ -49,7 +49,10 @@ const Login = () => {
 
   return (
     <React.Fragment>
-      <Navbar />
+      <nav className="fixed top-0 w-full  bg-[#7749F8] sm:p-0 p-1 flex flex-wrap justify-between items-center">
+        <Link to="/" className="text-white sm:ml-24 ml-5 sm:text-[1.4rem] text-[1.1rem] font-bold hover:bg-[#5628F6]  rounded-lg transition duration-300 sm:px-2 px-0 py-0  sm:py-1">Personal Blogging App</Link>
+      </nav>
+      {/* <Navbar /> */}
 
       <NavbarBlow PageName='Login' />
       <div className="flex items-center justify-center pt-[5rem]">

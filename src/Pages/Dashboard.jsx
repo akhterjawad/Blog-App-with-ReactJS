@@ -47,7 +47,7 @@ const Dashboard = () => {
 
   const fetchUserBlogs = async (uid) => {
     setLoading(true)
-    const userQuery = query(collection(db, 'blogs'), where('Uid', '==', uid), orderBy('time',"desc"));
+    const userQuery = query(collection(db, 'blogs'), where('Uid', '==', uid), orderBy('time', "desc"));
     try {
       const querySnapshot = await getDocs(userQuery);
       let userBlogs = [];
@@ -57,7 +57,7 @@ const Dashboard = () => {
       setBlogs(userBlogs);
     } catch (error) {
       console.log(error);
-      
+
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -88,11 +88,16 @@ const Dashboard = () => {
 
     try {
       await sendData(newBlog, 'blogs');
-      setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
       MainBlogTitle.current.value = '';
       MainBlogDescription.current.value = '';
+      // Re-fetch blogs from Firestore to sync the state
+      await fetchUserBlogs(auth.currentUser.uid);
+      Swal.fire({
+        icon: 'success',
+        title: 'Blog added!',
+        text: 'Your blog has been added successfully.',
+      });
     } catch (error) {
-      console.error('Error sendData of blogs:', error);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -103,28 +108,33 @@ const Dashboard = () => {
     }
   };
 
+
   const deleteBlog = async (index) => {
     const blogToDelete = blogs[index];
     if (!blogToDelete) {
-      // console.error('Blog not found at index:', index);
       return;
     }
-    setdeleteDisable(true)
+    setdeleteDisable(true);
     try {
       await deleteDoc(doc(db, 'blogs', blogToDelete.id));
-      setBlogs((prevBlogs) => prevBlogs.filter((_, i) => i !== index));
-      // console.log('Blog deleted');
+      // Re-fetch blogs from Firestore to sync the state
+      await fetchUserBlogs(auth.currentUser.uid);
+      Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'Your blog has been deleted.',
+      });
     } catch (error) {
-      // console.error('Error deleting blog:', error);
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Something went wrong while deleting the blog!'
+        text: 'Something went wrong while deleting the blog!',
       });
     } finally {
       setdeleteDisable(false);
     }
   };
+
 
   const updateBlog = async (index) => {
     const blogToUpdate = blogs[index];
@@ -204,7 +214,6 @@ const Dashboard = () => {
   const saveUpdatedBlog = async (updatedTitle, updatedDescription, index) => {
     const blogToUpdate = blogs[index];
     if (!blogToUpdate) {
-      // console.error("No blog found at this index:", index);
       return;
     }
 
@@ -216,37 +225,34 @@ const Dashboard = () => {
       updatedFields.BlogDescription = updatedDescription;
     }
 
-    // Check if there are actually fields to update
     if (Object.keys(updatedFields).length === 0) {
       Swal.fire({
-        icon: "warning",
-        title: "Nothing to update",
-        text: "The title and description are unchanged.",
+        icon: 'warning',
+        title: 'Nothing to update',
+        text: 'The title and description are unchanged.',
       });
       return;
     }
 
     try {
-      const blogDoc = doc(db, "blogs", blogToUpdate.id);
-      // console.log("Updating blog document:", blogDoc.id);
-
-      await updateDoc(blogDoc, updatedFields); // Only update the fields that changed
-
-      setBlogs((prevBlogs) =>
-        prevBlogs.map((blog, i) =>
-          i === index ? { ...blog, ...updatedFields } : blog
-        )
-      );
-      // console.log("Blog updated");
-    } catch (error) {
-      console.error("Error updating blog:", error);
+      const blogDoc = doc(db, 'blogs', blogToUpdate.id);
+      await updateDoc(blogDoc, updatedFields);
+      // Re-fetch blogs from Firestore to sync the state
+      await fetchUserBlogs(auth.currentUser.uid);
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong while updating the blog!",
+        icon: 'success',
+        title: 'Updated!',
+        text: 'Your blog has been updated successfully.',
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong while updating the blog!',
       });
     }
   };
+
 
 
 
