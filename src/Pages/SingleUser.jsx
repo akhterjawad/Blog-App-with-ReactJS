@@ -85,7 +85,7 @@ const SingleUser = () => {
         // Dashboard={CheckUser ? 'Dashboard' : ''}
         // Profile={CheckUser ? 'Profile' : ''}
         // Logout={CheckUser ? 'Logout' : ''}
-        Login={!CheckUser ? 'Login' : ''}
+        // Login={!CheckUser ? 'Login' : ''}
       />
       <div className='border mt-8 bg-white'>
         <Link to="/">
